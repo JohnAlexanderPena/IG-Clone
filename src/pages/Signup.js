@@ -21,14 +21,39 @@ export default function SignUp() {
 
     const usernameExists = await doesUserNameExist(username);
 
-    if (usernameExists) {
+    if (usernameExists.length === 0) {
       try {
-        const createUserResult = await firebase
+        const createdUserResult = await firebase
           .auth()
           .createUserWithEmailAndPassword(emailAddress, password);
 
         //Firebase Authenticion
-      } catch (error) {}
+
+        await createdUserResult.user.updateProfile({
+          displayName: username
+        });
+
+        //firebase user collection
+
+        await firebase.firestore().collection('users').add({
+          userId: createdUserResult.user.uid,
+          username: username.toLowerCase(),
+          fullname,
+          emailAddress: emailAddress.toLowerCase(),
+          following: [],
+          dateCreated: Date.now()
+        });
+
+        history.push(ROUTES.DASHBOARD);
+      } catch (error) {
+        setFullName('');
+        setEmailAddress('');
+        setPassword('');
+
+        setError(error.message);
+      }
+    } else {
+      setError('That username is already taken, please try another.');
     }
   };
 
