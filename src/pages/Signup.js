@@ -21,7 +21,7 @@ export default function SignUp() {
 
     const usernameExists = await doesUserNameExist(username);
 
-    if (usernameExists.length === 0) {
+    if (!usernameExists.length) {
       try {
         const createdUserResult = await firebase
           .auth()
