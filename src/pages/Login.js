@@ -24,7 +24,7 @@ export default function Login() {
       setPassword('');
       setError(error.message);
       /////REMOVE THIS ONCE SIGNUP PAGE IS DONE
-      history.push(ROUTES.DASHBOARD);
+      // history.push(ROUTES.DASHBOARD);
     }
   };
 
