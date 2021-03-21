@@ -3,16 +3,13 @@ import User from './User';
 import Suggestions from './Suggestions';
 export default function Sidebar() {
   const {
-    user: { fullname, username, userId }
+    user: { fullName, username, userId }
   } = useUser();
 
-  console.log(useUser());
-
-  console.log('fullName, username, userId', fullname, username, userId);
   return (
     <div className="p-4">
-      <User />
-      <Suggestions />
+      <User username={username} fullName={fullName} />
+      <Suggestions userId={userId} />
     </div>
   );
 }
