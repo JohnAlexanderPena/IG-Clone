@@ -32,4 +32,4 @@ User.propTypes = {
   fullName: PropTypes.string.isRequired
 };
 
-User.whyDidYouRender = true;
+// User.whyDidYouRender = true;
