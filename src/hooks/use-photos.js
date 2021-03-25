@@ -15,9 +15,9 @@ export default function usePhotos() {
       let followedUserPhotos = [];
 
       //Check if user follows people
-      if (following.length > 0) {
-        followedUserPhotos = await getPhotos(userId, following);
-      }
+      //   if (following.length > 0) {
+      //     followedUserPhotos = await getPhotos(userId, following);
+      //   }
     }
     getTimeLinePhotos();
   }, []);
