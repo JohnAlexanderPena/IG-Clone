@@ -1,13 +1,28 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  updateLoggedInUserFollowing,
+  updateFollowedUserFollowers
+} from '../../services/firebase';
 export default function SuggestedProfile({
   username,
-  userDocId,
+  suggestedProfileDocId,
+  loggedInUserDocId,
   profileId,
   userId
 }) {
   const [followed, setFollowed] = useState(false);
+
+  const handleFollowUser = async () => {
+    setFollowed(true);
+
+    await updateLoggedInUserFollowing(loggedInUserDocId, profileId, false);
+
+    await updateFollowedUserFollowers(suggestedProfileDocId, userId, false);
+  };
+
+  useEffect(() => {}, []);
 
   return !followed ? (
     <div className="flex flex-row items-center align-items justify-between">
@@ -24,7 +39,7 @@ export default function SuggestedProfile({
       <button
         className="text-xs font-bold text-blue-medium"
         type="button"
-        onClick={() => console.log('Follow this')}
+        onClick={() => handleFollowUser()}
       >
         Follow
       </button>
@@ -34,7 +49,8 @@ export default function SuggestedProfile({
 
 SuggestedProfile.propTypes = {
   username: PropTypes.string.isRequired,
-  userDocId: PropTypes.string.isRequired,
+  suggestedProfileDocId: PropTypes.string.isRequired,
   profileId: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired
+  userId: PropTypes.string.isRequired,
+  loggedInUserDocId: PropTypes.string.isRequired
 };
