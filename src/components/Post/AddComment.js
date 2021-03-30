@@ -18,9 +18,22 @@ export default function AddComment({
   } = useContext(UserContext);
 
   const handleSubmitComment = (e) => {
-    e.preventDefautl();
+    e.preventDefault();
 
-    return null;
+    setComments([{ displayName, comment }, ...comments]);
+
+    setComment('');
+    //Give me new array []
+    //New comment inside
+    //Add old comments
+
+    return firebase
+      .firestore()
+      .collection('photos')
+      .doc(docId)
+      .update({
+        comments: FieldValue.arrayUnion({ displayName, comment })
+      });
   };
 
   return (
