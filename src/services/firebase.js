@@ -13,6 +13,21 @@ export async function doesUserNameExist(username) {
   return result.docs.map((user) => user.data().length > 0);
 }
 
+export async function getUserByUsername(username) {
+  const result = await firebase
+    .firestore() //Go into firebase store
+    .collection('users') // Into collection of users in Firestore
+    .where('username', '==', username) // Check where username === passed in username
+    .get(); //fetch data
+
+  console.log(result);
+
+  return result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id
+  }));
+}
+
 export async function getUserByUserId(userId) {
   const results = await firebase
     .firestore() //Go into firebase store
