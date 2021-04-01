@@ -2,6 +2,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getUserByUsername } from '../services/firebase';
 import * as ROUTES from '../constants/routes';
+import Header from '../components/Header';
+import UserProfile from '../components/Profile/index';
 
 export default function Profile() {
   const { username } = useParams();
@@ -26,9 +28,13 @@ export default function Profile() {
     checkUserExists();
     console.log('user', user);
   }, [username, history]);
+
   return userExists ? (
     <div className="bg-gray-background">
-      <div className="mx-auto max-w-screen-lg">{user.fullName}</div>
+      <Header />
+      <div className="mx-auto max-w-screen-lg">
+        <UserProfile user={user} />
+      </div>
     </div>
   ) : null;
 }

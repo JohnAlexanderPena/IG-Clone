@@ -7,8 +7,6 @@ export async function doesUserNameExist(username) {
     .where('username', '==', username) // Check where username === passed in username
     .get(); //fetch data
 
-  console.log(result);
-
   //Check if there is any data and return it
   return result.docs.map((user) => user.data().length > 0);
 }
@@ -19,8 +17,6 @@ export async function getUserByUsername(username) {
     .collection('users') // Into collection of users in Firestore
     .where('username', '==', username) // Check where username === passed in username
     .get(); //fetch data
-
-  console.log(result);
 
   return result.docs.map((item) => ({
     ...item.data(),
@@ -46,7 +42,6 @@ export async function getUserByUserId(userId) {
 }
 
 export async function getSuggestedProfiles(userId, following) {
-  console.log(following);
   const results = await firebase
     .firestore() //Go into firebase store
     .collection('users') // Into collection of users in Firestore
@@ -122,4 +117,22 @@ export async function getPhotos(userId, following) {
     })
   );
   return photosWithUserDetails;
+}
+
+// export async function getUserIdByUsername(username){
+// }
+export async function getUserPhotosByUserName(username) {
+  const [user] = await getUserByUsername(username);
+
+  console.log('user', user);
+  const result = await firebase
+    .firestore()
+    .collection('photos')
+    .where('userId', '==', user.userId)
+    .get();
+
+  return result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id
+  }));
 }
