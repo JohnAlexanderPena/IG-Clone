@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import useUser from '../../hooks/use-user';
 import { isUserFollowingProfile } from '../../services/firebase';
-// import Image from '../../../public/';
 export default function Header({
   photosCount,
   profile: {
     docId: profileDocId,
     userId: profileUserId,
     fullName,
+    followers = [],
     following = [],
     username: profileUsername
   },
@@ -29,7 +29,7 @@ export default function Header({
         profileUserId
       );
 
-      setIsFollowingProfile(isFollowing);
+      setIsFollowingProfile(!!isFollowing);
     };
     if (user.username && profileUserId) {
       isLoggedInUserFollowingProfile();
@@ -37,7 +37,12 @@ export default function Header({
   }, [user.username, profileUserId]);
 
   const handeToggleFollow = () => {
-    console.log('Clicking FOllow');
+    setIsFollowingProfile((isFollowingProfile) => !isFollowingProfile);
+    setFollowerCount({
+      followerCount: isFollowingProfile
+        ? followers.length - 1
+        : followers.length + 1
+    });
   };
 
   return (
@@ -51,17 +56,48 @@ export default function Header({
           />
         )}
       </div>
-      <div className="container flex items-center">
-        <p className="text-2xl mr-4">{profileUsername}</p>
-        {activeButtonFollow && (
-          <button
-            className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
-            type="button"
-            onClick={handeToggleFollow}
-          >
-            {isFollowingProfile ? 'Unfollow' : 'Follow'}
-          </button>
-        )}
+      <div className="container flex items-center flex-col col-span-2">
+        <div className="container flex items-center">
+          <p className="text-2xl mr-4">{profileUsername}</p>
+          {activeButtonFollow && (
+            <button
+              className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
+              type="button"
+              onClick={() => handeToggleFollow()}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  handeToggleFollow();
+                }
+              }}
+            >
+              {isFollowingProfile ? 'Unfollow' : 'Follow'}
+            </button>
+          )}
+        </div>
+        <div className="container flex mt-4">
+          {!followers || !following ? (
+            <Skeleton count={1} width={677} height={24} />
+          ) : (
+            <>
+              <p className="mr-10">
+                <span className="font-bold">{photosCount}</span> photos
+              </p>
+              <p className="mr-10">
+                <span className="font-bold">{followers.length}</span>
+                {'  '}
+                {followers === 1 ? 'follower' : 'followers'}
+              </p>
+              <p className="mr-10">
+                <span className="font-bold">{following.length}</span> following
+              </p>
+            </>
+          )}
+        </div>
+        <div className="container mt-4">
+          <p className="font-medium">
+            {!fullName ? <Skeleton count={1} height={24} /> : fullName}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -75,7 +111,8 @@ Header.propTypes = {
     docId: PropTypes.string,
     userId: PropTypes.string,
     fullName: PropTypes.string,
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
+    followers: PropTypes.array,
     following: PropTypes.array
   }).isRequired
 };
