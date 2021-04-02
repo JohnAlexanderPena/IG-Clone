@@ -124,7 +124,6 @@ export async function getPhotos(userId, following) {
 export async function getUserPhotosByUserName(username) {
   const [user] = await getUserByUsername(username);
 
-  console.log('user', user);
   const result = await firebase
     .firestore()
     .collection('photos')
@@ -135,4 +134,24 @@ export async function getUserPhotosByUserName(username) {
     ...item.data(),
     docId: item.id
   }));
+}
+
+export async function isUserFollowingProfile(
+  loggedInUserUsername,
+  profileUserId
+) {
+  const result = await firebase
+    .firestore()
+    .collection('users')
+    .where('username', '==', loggedInUserUsername) // Active logged in user
+    .where('following', 'array-contains', profileUserId)
+    .get();
+
+  const [response = {}] = result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id
+  }));
+
+  console.log(response.userId);
+  return response.userId;
 }
