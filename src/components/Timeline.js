@@ -8,6 +8,10 @@ export default function Timeline() {
   const { user } = useContext(LoggedInUserContext);
   const { photos } = usePhotos(user);
 
+  console.log(photos);
+
+  console.log(user);
+
   return (
     <div className="container col-span-2">
       {!photos ? (

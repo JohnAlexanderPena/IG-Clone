@@ -22,7 +22,6 @@ export default function Profile() {
       }
     }
     checkUserExists();
-    console.log('user', user);
   }, [username, history]);
 
   return user?.username ? (
