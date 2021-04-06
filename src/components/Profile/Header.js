@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect, useContext } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import UserContext from '../../context/user';
 import useUser from '../../hooks/use-user';
 import { isUserFollowingProfile, toggleFollow } from '../../services/firebase';
 export default function Header({
@@ -17,7 +19,9 @@ export default function Header({
   followerCount,
   setFollowerCount
 }) {
-  const { user } = useUser();
+  const { user: loggedInUser } = useContext(UserContext);
+
+  const { user } = useUser(loggedInUser?.uid);
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
 
   const activeButtonFollow = user.username && user.username !== profileUsername;
