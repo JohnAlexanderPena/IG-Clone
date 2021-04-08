@@ -29,7 +29,7 @@ export default function Header() {
             </h1>
           </div>
           <div className="text-gray-700 text-center flex items-center align-items">
-            {user.username ? (
+            {user && user.username ? (
               <>
                 <Link to={ROUTES.DASHBOARD} aria-label="dashboard">
                   <svg
