@@ -8,13 +8,13 @@ export default function Timeline() {
   const { user } = useContext(LoggedInUserContext);
   const { photos } = usePhotos(user);
 
-  console.log(photos);
-
-  console.log(user);
-
   return (
     <div className="container col-span-2">
-      {!photos ? (
+      {user?.following?.length === 0 ? (
+        <p className="text-center text-2xl">
+          Start Following Users To See Photos!
+        </p>
+      ) : !photos ? (
         <Skeleton count={4} width={640} height={500} className="mb-5" />
       ) : (
         photos.map((content) => <Post key={content.docId} content={content} />)
