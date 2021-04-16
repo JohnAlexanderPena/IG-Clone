@@ -26,7 +26,6 @@ export default function AddComment({
     //Give me new array []
     //New comment inside
     //Add old comments
-
     return firebase
       .firestore()
       .collection('photos')

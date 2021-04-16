@@ -7,8 +7,8 @@ export default function Login() {
   const history = useHistory();
   const { firebase } = useContext(FirebaseContext);
 
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailAddress, setEmailAddress] = useState('jpena91@gmail.com');
+  const [password, setPassword] = useState('password');
   const [error, setError] = useState('');
 
   const isInvalid = password === '' || emailAddress === '';
@@ -40,14 +40,13 @@ export default function Login() {
       <div className="flex flex-col w-2/5">
         <div className="flex flex-col items-center bg-white p-4 border border-gray-primary mb-4 rounded ">
           <h1 className="flex justify-center w-full">
-            {' '}
             <img
               src="/images/logo.png"
               alt="ig-logo"
               className="mt-2 w-6/12 mb-4"
             />
           </h1>
-
+          <p>Test User Info Already Applied</p>
           {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
 
           <form onSubmit={handleLogin} method="POST">
@@ -55,12 +54,14 @@ export default function Login() {
               aria-label="Enter your email address"
               type="text"
               placeholder="Email Address"
+              value={emailAddress}
               className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
               onChange={({ target }) => setEmailAddress(target.value)}
             />
             <input
               aria-label="Enter your password"
               type="password"
+              value={password}
               placeholder="Password"
               className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
               onChange={({ target }) => setPassword(target.value)}
