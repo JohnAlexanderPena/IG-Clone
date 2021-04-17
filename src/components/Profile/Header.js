@@ -23,6 +23,7 @@ export default function Header({
 
   const { user } = useUser(loggedInUser?.uid);
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
+  const userImages = ['dali', 'john', 'johnap', 'musk', 'orwell', 'raphael'];
 
   const activeButtonFollow =
     user && user.username && user.username !== profileUsername;
@@ -64,7 +65,9 @@ export default function Header({
           <img
             className="rounded-full h-40 w-40 flex"
             alt={`${user.username} profile picture`}
-            src={`/images/avatars/${profileUsername}.jpg`}
+            src={`/images/avatars/${
+              userImages.includes(profileUsername) ? profileUsername : 'default'
+            }.jpg`}
           />
         ) : null}
       </div>
