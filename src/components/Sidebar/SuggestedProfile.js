@@ -22,6 +22,8 @@ export default function SuggestedProfile({
     await updateFollowedUserFollowers(suggestedProfileDocId, userId, false);
   };
 
+  const userImages = ['dali', 'john', 'johnap', 'musk', 'orwell', 'raphael'];
+
   useEffect(() => {}, []);
 
   return !followed ? (
@@ -29,7 +31,9 @@ export default function SuggestedProfile({
       <div className="flex items-center justify-between">
         <img
           className="rounded-full w-8 flex mr-3"
-          src={`/images/avatars/${username}.jpg`}
+          src={`/images/avatars/${
+            userImages.includes(username) ? username : 'default'
+          }.jpg`}
           alt="profile pic"
         />
         <Link to={`/p/${username}`}>
