@@ -13,6 +13,8 @@ export default function Header() {
   const history = useHistory();
   const { user } = useUser(loggedInUser?.uid);
 
+  const userImages = ['dali', 'john', 'johnap', 'musk', 'orwell', 'raphael'];
+
   return (
     <header className="h-16 bg-white border-b border-gray-primary mb-8">
       <div className="container mx-auto max-w-screen-lg h-full">
@@ -79,7 +81,11 @@ export default function Header() {
                   <Link to={`/p/${user?.username?.toLowerCase()}`}>
                     <img
                       className="rounded-full h-8 w-8 flex"
-                      src={`/images/avatars/${user?.username}.jpg`}
+                      src={`/images/avatars/${
+                        userImages.includes(user?.username)
+                          ? user.username
+                          : 'default'
+                      }.jpg`}
                       alt={`${user?.username} profile`}
                     />
                   </Link>

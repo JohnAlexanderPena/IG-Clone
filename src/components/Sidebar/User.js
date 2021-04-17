@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 
 export default function User({ username, fullName }) {
+  const userImages = ['dali', 'john', 'johnap', 'musk', 'orwell', 'raphael'];
+
   return !username || !fullName ? (
     <Skeleton count={1} height={61} />
   ) : (
@@ -14,7 +16,9 @@ export default function User({ username, fullName }) {
       <div className="flex items-center justify-between col-span-1">
         <img
           className="rounded-full w-16 flex mr-3"
-          src={`/images/avatars/${username}.jpg`}
+          src={`/images/avatars/${
+            userImages.includes(username) ? username : 'default'
+          }.jpg`}
           alt="User Avatar"
         />
       </div>
